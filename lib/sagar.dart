@@ -1,7 +1,9 @@
 library sagar;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+import 'dart:isolate';
+
+import 'package:flutter/services.dart';
+import 'package:sagar/src/sagar_payload.dart';
+
+part 'src/isolate.dart';
+part 'src/exceptions.dart';
