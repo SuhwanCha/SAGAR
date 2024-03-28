@@ -1,31 +1,16 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# SAGAR
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Sagar is a package that provides a simple way to use isolates in Dart.
+Sagar(סָגַר) means `Isolate` in Hebrew.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
 start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
 to `/example` folder.
 
 ```dart
@@ -34,6 +19,11 @@ const like = 'sample';
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
 contribute to the package, how to file issues, what response they can expect
 from the package authors, and more.
+
+כֹּה־  אָמַ֣ר  יְהוָה֮  לִמְשִׁיחֹו֮  לְכֹ֣ורֶשׁ  אֲשֶׁר־  הֶחֱזַ֣קְתִּי  בִֽימִינֹ֗ו  לְרַד־  לְפָנָיו֙  גֹּויִ֔ם  וּמָתְנֵ֥י  מְלָכִ֖ים  אֲפַתֵּ֑חַ  לִפְתֹּ֤חַ  לְפָנָיו֙  דְּלָתַ֔יִם  וּשְׁעָרִ֖ים  לֹ֥א  יִ**סָּגֵֽרוּ׃**
+
+This is what the Lord says to his anointed, to Cyrus, whose right hand I take hold of to subdue nations before him and to strip kings of their armor, to open doors before him so that gates **will not be shut**:
+
+- Isaiah 45:1
