@@ -8,17 +8,12 @@ class Sagar<T> {
     final isolate = await Isolate.spawn<SagarPayload<T>>(
       _isolateEntryPoint,
       SagarPayload(
-          function: function,
-          sendPort: receivePort.sendPort,
-          isolateToken: isolateToken),
+        function: function,
+        sendPort: receivePort.sendPort,
+        isolateToken: isolateToken,
+      ),
       onExit: receivePort.sendPort,
     );
-
-    if (await receivePort.length == 0) {
-      receivePort.close();
-      isolate.kill(priority: Isolate.immediate);
-      throw SagarReceiverPortEmptyException();
-    }
 
     final result = await receivePort.first;
 
