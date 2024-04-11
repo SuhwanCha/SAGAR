@@ -26,3 +26,11 @@ final class SagarResultTypeException extends SagarException {
   final Type expectedType;
   final Type actualType;
 }
+
+final class SagarStreamErrorException extends SagarException {
+  SagarStreamErrorException(this.exception, this.stackTrace)
+      : super('The stream has ended.');
+
+  final Exception exception;
+  final StackTrace stackTrace;
+}

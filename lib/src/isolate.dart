@@ -31,29 +31,21 @@ class Sagar<T> {
     return result;
   }
 
-  Future<T> executeStream(
-    Stream<T> Function() function, {
+  Future<Stream<T>> executeStream(
+    Stream<T> stream, {
     T? initialValue,
   }) async {
+    final StreamController<T> controller = StreamController<T>.broadcast();
+
     final receivePort = ReceivePort();
     final isolateToken = RootIsolateToken.instance;
 
     final isolate = await Isolate.spawn<SagarPayloadStream<T>>(
       _isolateStreamEntryPoint,
       SagarPayloadStream(
-        stream: () {
-          final stream = function();
-          final controller = StreamController<T>();
-
-          controller.onListen = () {
-            stream.listen(
-              controller.add,
-              onError: controller.addError,
-              onDone: controller.close,
-              cancelOnError: true,
-            );
-          };
-          return controller.stream;
+        stream: stream,
+        onError: (e, t) {
+          receivePort.sendPort.send(SagarStreamErrorException(e, t));
         },
         sendPort: receivePort.sendPort,
         isolateToken: isolateToken,
@@ -61,20 +53,25 @@ class Sagar<T> {
       onExit: receivePort.sendPort,
     );
 
-    final result = await receivePort.first;
-
-    if (result is! T) {
-      receivePort.close();
-      isolate.kill(priority: Isolate.immediate);
-      throw SagarResultTypeException(
-        expectedType: T,
-        actualType: result.runtimeType,
-      );
+    if (initialValue != null) {
+      controller.add(initialValue);
     }
 
-    receivePort.close();
-    isolate.kill(priority: Isolate.immediate);
-    return result;
+    receivePort.listen((message) {
+      if (message == _SagarFlags.streamEnd) {
+        receivePort.close();
+        isolate.kill(priority: Isolate.immediate);
+      } else if (message == _SagarFlags.streamError ||
+          message is SagarStreamErrorException) {
+        receivePort.close();
+        isolate.kill(priority: Isolate.immediate);
+        controller.addError(message);
+      } else if (message is T) {
+        controller.add(message);
+      }
+    });
+
+    return controller.stream;
   }
 
   void _isolateEntryPoint(SagarPayload<T> isolateToken) async {
@@ -88,15 +85,15 @@ class Sagar<T> {
     }
   }
 
-  void _isolateStreamEntryPoint(SagarPayload<Stream<T>> isolateToken) async {
+  void _isolateStreamEntryPoint(SagarPayloadStream<T> isolateToken) async {
     final sendPort = isolateToken.sendPort;
 
     try {
-      final stream = await isolateToken.function();
+      final stream = isolateToken.stream;
       stream.listen(
         sendPort.send,
-        onError: sendPort.sendError,
-        onDone: sendPort.send,
+        onError: isolateToken.onError,
+        onDone: () => sendPort.send(_SagarFlags.streamEnd),
         cancelOnError: true,
       );
     } catch (e, t) {

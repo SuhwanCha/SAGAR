@@ -6,6 +6,7 @@ class SagarPayloadStream<T> {
   const SagarPayloadStream({
     required this.stream,
     required this.sendPort,
+    required this.onError,
     this.isolateToken,
   });
 
@@ -17,4 +18,6 @@ class SagarPayloadStream<T> {
 
   /// The isolate token to identify the isolate.
   final RootIsolateToken? isolateToken;
+
+  final Function onError;
 }
