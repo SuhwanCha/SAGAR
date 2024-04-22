@@ -8,7 +8,9 @@ abstract class Streamable<T extends Object?> extends Executable<Stream<T>> {
   Stream<T> get stream;
 }
 
-abstract class SagarBase<T extends Object?> implements Streamable<T> {
+abstract class SagarBase<T extends Object?>
+    with ChangeNotifier
+    implements Streamable<T> {
   late final Isolate _isolate;
   late final _controller = StreamController<T>.broadcast();
 
