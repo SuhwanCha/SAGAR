@@ -10,6 +10,22 @@ class SagarProvider<T extends SagarBase> extends ChangeNotifierProvider<T> {
     bool lazy = true,
     TransitionBuilder? builder,
   });
+
+  factory SagarProvider.value({
+    required T value,
+    Key? key,
+    Widget? child,
+    bool lazy = true,
+    TransitionBuilder? builder,
+  }) {
+    return SagarProvider(
+      key: key,
+      create: (_) => value,
+      lazy: lazy,
+      builder: builder,
+      child: child,
+    );
+  }
 }
 
 class MultiSagarProvider extends MultiProvider {

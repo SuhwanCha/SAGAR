@@ -16,14 +16,15 @@ class SagarBuilder<T, B extends SagarBase<T>> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<T>(
-      stream: context.read<B>().stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
-        } else if (snapshot.hasError) {
-          return errorBuilder(context);
+    return Consumer<B>(
+      builder: (context, _, child) {
+        final sagar = context.read<B>();
+        if (sagar.value != null) {
+          return builder(context, sagar.value as T);
         } else {
+          if (sagar.hasError) {
+            return errorBuilder(context);
+          }
           return loadingBuilder(context);
         }
       },
