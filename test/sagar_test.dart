@@ -34,4 +34,18 @@ void main() {
 
     expect(result, "{'name': 'John Doe'}");
   });
+
+  test('exception', () async {
+    final sagar = Sagar<Map<String, dynamic>>();
+    dynamic exception;
+    try {
+      await sagar.execute(() async {
+        throw Exception('Error');
+      });
+    } catch (e) {
+      exception = e;
+    }
+
+    expect(exception, isNotNull);
+  });
 }

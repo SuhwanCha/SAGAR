@@ -17,28 +17,16 @@ class Sagar<T> {
 
     final result = await receivePort.first;
 
-    if (result is! T) {
-      receivePort.close();
-      isolate.kill(priority: Isolate.immediate);
-      throw SagarResultTypeException(
-        expectedType: T,
-        actualType: result.runtimeType,
-      );
-    }
-
     receivePort.close();
     isolate.kill(priority: Isolate.immediate);
     return result;
   }
 
-  void _isolateEntryPoint(SagarPayload<T> isolateToken) async {
+  void _isolateEntryPoint(SagarPayload<T> isolateToken) {
     final sendPort = isolateToken.sendPort;
-
-    try {
-      final data = await isolateToken.function();
-      sendPort.send(data);
-    } catch (e, t) {
-      return Future.error(e, t);
-    }
+    isolateToken.function
+        .call()
+        .then((value) => sendPort.send(value))
+        .catchError((e, t) => sendPort.send(e));
   }
 }
