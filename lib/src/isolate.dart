@@ -1,6 +1,14 @@
 part of '../sagar.dart';
 
 class Sagar<T> {
+  Stream<T> getStream(
+    Future<T> Function() function,
+  ) {
+    return Stream.fromFuture(
+      execute(function),
+    );
+  }
+
   Future<T> execute(Future<T> Function() function) async {
     final receivePort = ReceivePort();
     final isolateToken = RootIsolateToken.instance;

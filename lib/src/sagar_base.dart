@@ -10,21 +10,19 @@ abstract class Streamable<T extends Object?> extends Executable<Stream<T>> {
 
 abstract class SagarBase<T extends Object?>
     with ChangeNotifier
-    implements Streamable<T> {
-  late final Isolate _isolate;
-  late final _controller = StreamController<T>.broadcast();
+    implements Executable<T> {
+  Stream<T>? _stream;
+  Stream<T>? get stream => _stream;
 
   bool _isolateKilled = false;
 
-  @override
-  Stream<T> get stream => _controller.stream;
-
-  Future<Stream<T>> executeStream(
-    Stream<T> stream, {
-    T? initialValue,
-  });
-
   bool get isIsolateKilled => _isolateKilled;
+
+  void init() {
+    _stream = Sagar<T>().getStream(execute);
+
+    // stream?.listen(_onChanged);
+  }
 
   Future<void> close() async {
     if (!_isolateKilled) {
@@ -33,17 +31,19 @@ abstract class SagarBase<T extends Object?>
     }
   }
 
-  void onChanged(T value) {
-    emit(value);
-  }
+  // void _onChanged(T value) {
+  //   emit(value);
+  // }
 
   void killIsolate() {
-    return _isolate.kill(priority: Isolate.immediate);
+    assert(_stream != null, 'Isolate is null');
+
+    _stream = null;
   }
 
-  void emit(T value) {
-    if (!_isolateKilled) {
-      _controller.add(value);
-    }
-  }
+  // void emit(T value) {
+  //   if (!_isolateKilled) {
+  //     _stream.
+  //   }
+  // }
 }
