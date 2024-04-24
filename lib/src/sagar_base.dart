@@ -30,8 +30,6 @@ abstract class SagarBase<T extends Object?>
       _value = value;
       notifyListeners();
     }).catchError((e) {
-      print("@@@@");
-      print(e);
       _hasError = true;
       notifyListeners();
     });

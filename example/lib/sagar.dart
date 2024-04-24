@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:sagar/sagar.dart';
 
 class Sagar2 extends SagarBase<int> {
