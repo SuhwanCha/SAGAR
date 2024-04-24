@@ -3,27 +3,73 @@
 Sagar is a package that provides a simple way to use isolates in Dart.
 Sagar(סָגַר) means `Isolate` in Hebrew.
 
-## Features
+<https://codecov.io/gh/SuhwanCha/SAGAR/graphs/tree.svg?token=QNuJYnoO68>
 
-## Getting started
+[![codecov](https://codecov.io/gh/SuhwanCha/SAGAR/graphs/tree.svg?token=QNuJYnoO68)](https://codecov.io/gh/SuhwanCha/SAGAR)
 
-start using the package.
+[![codecov](https://codecov.io/gh/SuhwanCha/SAGAR/graph/badge.svg?token=QNuJYnoO68)](https://codecov.io/gh/SuhwanCha/SAGAR)
 
-## Usage
+## How to use
 
-to `/example` folder.
+1. Add the dependency to your `pubspec.yaml` file.
 
-```dart
-const like = 'sample';
+```yaml
+dependencies:
+  sagar: ^0.0.1
 ```
 
-## Additional information
+1. Import the package.
 
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+import 'package:sagar/sagar.dart';
+```
 
-כֹּה־  אָמַ֣ר  יְהוָה֮  לִמְשִׁיחֹו֮  לְכֹ֣ורֶשׁ  אֲשֶׁר־  הֶחֱזַ֣קְתִּי  בִֽימִינֹ֗ו  לְרַד־  לְפָנָיו֙  גֹּויִ֔ם  וּמָתְנֵ֥י  מְלָכִ֖ים  אֲפַתֵּ֑חַ  לִפְתֹּ֤חַ  לְפָנָיו֙  דְּלָתַ֔יִם  וּשְׁעָרִ֖ים  לֹ֥א  יִ**סָּגֵֽרוּ׃**
+1. Create an Sagar class than extends SagarBase
 
-This is what the Lord says to his anointed, to Cyrus, whose right hand I take hold of to subdue nations before him and to strip kings of their armor, to open doors before him so that gates **will not be shut**:
+```dart
+class Sagar2 extends SagarBase<int> {
+  @override
+  Future<int> execute() async {
+    await Future.delayed(Duration.zero);
+    return Future.value(1);
+  }
+}
+```
 
-- Isaiah 45:1
+`execute` method is the method that will be executed in the isolate.
+
+1. Create SagarProvider
+
+```dart
+SagarProvider(
+  create: (_) => Sagar2()..init(),
+  child: const SizedBox.shrink(),
+),
+```
+
+Also you can use SagarProvider.value
+
+```dart
+SagarProvider.value(
+  value: Sagar2()..init(),
+  child: const SizedBox.shrink(),
+),
+```
+
+> Note that you should call `init` method after creating Sagar class.
+
+1. Use SagarBuilder to get the result of Sagar
+
+```dart
+return SagarBuilder<int, Sagar2>(
+  builder: (context, value) {
+    return Text(value.toString());
+  },
+  errorBuilder: (context) {
+    return const Text('Error');
+  },
+  loadingBuilder: (context) {
+    return const CircularProgressIndicator();
+  },
+)
+```
