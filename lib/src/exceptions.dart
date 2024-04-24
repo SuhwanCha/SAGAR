@@ -1,4 +1,3 @@
-part of '../sagar.dart';
 
 // sealed class SagarException implements Exception {
 //   final String message;

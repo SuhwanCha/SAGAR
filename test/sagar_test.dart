@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:sagar/sagar.dart';
-import 'package:sagar/src/widgets/sagar_builder.dart';
-import 'package:sagar/src/widgets/sagar_provider.dart';
+import 'package:sagar/src/isolate.dart';
 
 class SagarBase2 extends SagarBase<int> {
+  @override
+  Future<int> execute() async {
+    await Future.delayed(Duration.zero);
+    return Future.value(1);
+  }
+}
+
+class Sagar2 extends SagarBase<int> {
   @override
   Future<int> execute() async {
     await Future.delayed(Duration.zero);
@@ -96,26 +103,25 @@ void main() {
   );
 
   testWidgets('sargarBuilder', (widgetTester) async {
-    final widget = SagarProvider(
-      create: (_) => SagarBase2()..init(),
-      child: SagarBuilder<int, SagarBase2>(
-        builder: (context, value) {
-          return Text(value.toString());
-        },
-        errorBuilder: (context) {
-          return const Text('Error');
-        },
-        loadingBuilder: (context) {
-          return const CircularProgressIndicator();
-        },
-      ),
+    final sagar = Sagar2();
+    final widget = SagarProvider.value(
+      value: sagar..init(),
+      builder: (context, child) {
+        return SagarBuilder<int, Sagar2>(
+          builder: (context, value) {
+            return Text(value.toString());
+          },
+          errorBuilder: (context) {
+            return const Text('Error');
+          },
+          loadingBuilder: (context) {
+            return const CircularProgressIndicator();
+          },
+        );
+      },
     );
 
-    await widgetTester.pumpAndSettle();
-
     await widgetTester.pumpWidget(widget);
-
-    await widgetTester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });

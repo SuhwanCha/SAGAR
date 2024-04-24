@@ -8,7 +8,7 @@ class SagarProvider<T extends SagarBase> extends ChangeNotifierProvider<T> {
     required super.create,
     super.child,
     bool lazy = true,
-    TransitionBuilder? builder,
+    super.builder,
   });
 
   factory SagarProvider.value({

@@ -19,6 +19,7 @@ class SagarBuilder<T, B extends SagarBase<T>> extends StatelessWidget {
     return Consumer<B>(
       builder: (context, _, child) {
         final sagar = context.read<B>();
+
         if (sagar.value != null) {
           return builder(context, sagar.value as T);
         } else {

@@ -1,4 +1,5 @@
-part of '../sagar.dart';
+import 'package:flutter/material.dart';
+import 'package:sagar/src/isolate.dart';
 
 abstract class Executable<T extends Object?> {
   Future<T> execute();
@@ -29,6 +30,8 @@ abstract class SagarBase<T extends Object?>
       _value = value;
       notifyListeners();
     }).catchError((e) {
+      print("@@@@");
+      print(e);
       _hasError = true;
       notifyListeners();
     });

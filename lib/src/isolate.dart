@@ -1,4 +1,7 @@
-part of '../sagar.dart';
+import 'dart:isolate';
+import 'dart:ui';
+
+import 'package:sagar/sagar.dart';
 
 class Sagar<T> {
   Stream<T> getStream(
