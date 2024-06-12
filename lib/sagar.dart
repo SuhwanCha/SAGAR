@@ -4,6 +4,7 @@ export 'src/sagar_payload.dart';
 export 'src/sagar_base.dart';
 export 'src/widgets/sagar_builder.dart';
 export 'src/widgets/sagar_provider.dart';
+export 'src/isolate.dart';
 
 
 // import 'dart:async';

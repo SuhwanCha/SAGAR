@@ -1,4 +1,4 @@
-name: tflite_sample
+name: image_crop_sample
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -30,20 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  camera: ^0.10.5+2
-  image: ^4.0.17
-  path: ^1.8.3
-  path_provider: ^2.0.15
-  image_picker: ^0.8.8
-  tflite_flutter: ^0.10.4
-  sagar:
-    path: ../../
-
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  sagar:
+    path: ../../
+  image: ^4.2.0
 
 dev_dependencies:
   flutter_test:

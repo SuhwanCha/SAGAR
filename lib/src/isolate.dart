@@ -32,12 +32,12 @@ class Sagar<T> {
     isolate.kill(priority: Isolate.immediate);
     return result;
   }
+}
 
-  void _isolateEntryPoint(SagarPayload<T> isolateToken) {
-    final sendPort = isolateToken.sendPort;
-    isolateToken.function
-        .call()
-        .then((value) => sendPort.send(value))
-        .catchError((e, t) => sendPort.send(e));
-  }
+void _isolateEntryPoint(SagarPayload isolateToken) {
+  final sendPort = isolateToken.sendPort;
+  isolateToken.function
+      .call()
+      .then((value) => sendPort.send(value))
+      .catchError((e, t) => sendPort.send(e));
 }
